@@ -29,5 +29,34 @@ describe('deepClone',()=>{
       assert(a.child !== a2.child);
       assert(a.child.name === a2.child.name);
     });
+    it("能够复制普通数组", () => {
+      const a = [[1,1],[2,2],[3,3]]
+      const a2 =  DeepCloner(a);
+      assert(a!==a2);
+      assert(a[0]!==a2[0]);
+      assert(a[1]!==a2[1]);
+      assert(a[2]!==a2[2]);
+      assert.deepEqual(a,a2)
+    });
+    it("能够复制函数", () => {
+      const a = function (x,y){
+          return x+y
+      }
+      a.b={yyy:{zzz:1}}
+      const a2 = DeepCloner(a);
+      assert(a!==a2);
+      assert(a.b!==a2.b)
+      assert(a.b.yyy.zzz===a2.b.yyy.zzz)
+      assert(a(1,2)=== a2(1,2))
+     
+    });
+    it("环也能复制", () => {
+      const a = { name: "方方" };
+      a.self = a;
+      const a2 =  DeepCloner(a);
+      assert(a !== a2);
+      assert(a.name === a2.name);
+      assert(a.self !== a2.self);
+    });
   })
 })
